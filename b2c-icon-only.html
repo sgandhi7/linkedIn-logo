@@ -2,98 +2,31 @@
 <html>
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>B2C LinkedIn icon helper</title>
 <style>
-/* Ensure the LinkedIn icon appears even if B2C applies inline styles */
-:where(button[data-provider="LinkedIn"], a[data-provider="LinkedIn"],
-       button#LinkedIn, a#LinkedIn,
-       [role="button"][aria-label*="LinkedIn"],
-       .b2c-linkedin-button) {
-  background-image: url('https://cdn-icons-png.flaticon.com/512/174/174857.png') !important;
-  background-repeat: no-repeat !important;
-  background-position: 12px center !important;
-  background-size: 20px 20px !important;
-  padding-left: 44px !important;
+button[data-provider="LinkedIn"]::before {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  background-image: url('https://cdn-icons-png.flaticon.com/512/174/174857.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  vertical-align: middle;
 }
-@media (max-width:420px) {
-  :where(button[data-provider="LinkedIn"], a[data-provider="LinkedIn"],
-         button#LinkedIn, a#LinkedIn, .b2c-linkedin-button) {
-    padding-left: 36px !important;
-    background-size: 18px 18px !important;
-  }
-}
-
-/* keep page neutral if B2C doesn't supply styles */
-body{margin:0;padding:0;font-family:Segoe UI, Roboto, Arial, sans-serif}
 </style>
 </head>
 <body>
-<!-- THIS IS THE REQUIRED PLACEHOLDER — Azure AD B2C WILL MERGE ITS UI HERE -->
 <div id="api"></div>
-
-<!-- helper script: tags LinkedIn button when it appears and applies inline fallback styles -->
 <script>
-(function () {
-  const ICON_URL = 'https://cdn-icons-png.flaticon.com/512/174/174857.png';
-  const processed = new WeakSet();
-
-  function styleEl(el) {
-    if (!el || processed.has(el)) return;
-    try { el.setAttribute && el.setAttribute('data-provider', 'LinkedIn'); } catch(e){}
-    el.classList.add && el.classList.add('b2c-linkedin-button');
-
-    try {
-      const s = el.style;
-      s.setProperty('background-image', `url("${ICON_URL}")`, 'important');
-      s.setProperty('background-repeat', 'no-repeat', 'important');
-      s.setProperty('background-position', '12px center', 'important');
-      s.setProperty('background-size', '20px 20px', 'important');
-      const currentPad = window.getComputedStyle(el).paddingLeft || '0px';
-      if (parseInt(currentPad) < 36) s.setProperty('padding-left', '44px', 'important');
-    } catch (e) { /* ignore */ }
-
-    processed.add(el);
-  }
-
-  function findCandidates(root = document) {
-    const nodes = Array.from((root || document).querySelectorAll('button, a, div, span'));
-    nodes.forEach(n => {
-      if (!n) return;
-      const txt = (n.textContent || '').trim().toLowerCase();
-      const aria = (n.getAttribute && (n.getAttribute('aria-label') || '') || '').toLowerCase();
-      const id = (n.id || '').toLowerCase();
-      const data = (n.getAttribute && (n.getAttribute('data-provider') || '') || '').toLowerCase();
-
-      if (data.includes('linkedin') || id.includes('linkedin') || aria.includes('linkedin') || txt.includes('linkedin')) {
-        styleEl(n);
-      } else {
-        const childText = Array.from(n.querySelectorAll('span,div')).map(c => (c.textContent||'').toLowerCase()).join(' ');
-        if (childText.includes('linkedin')) styleEl(n);
-      }
-    });
-  }
-
-  // initial scan inside #api (where B2C will render)
-  const apiRoot = document.getElementById('api') || document.body;
-  findCandidates(apiRoot);
-
-  // observe DOM additions under #api (handles delayed rendering)
-  const observerRoot = apiRoot || document.documentElement || document.body;
-  const observer = new MutationObserver(mutations => {
-    for (const m of mutations) {
-      if (m.addedNodes && m.addedNodes.length) {
-        m.addedNodes.forEach(node => {
-          try { findCandidates(node); } catch(e){}
-        });
-      }
+const observer = new MutationObserver(() => {
+  document.querySelectorAll("button").forEach(btn => {
+    if (btn.textContent.trim().toLowerCase() === "linkedin") {
+      btn.setAttribute("data-provider", "LinkedIn");
     }
   });
-  observer.observe(observerRoot, { childList: true, subtree: true });
-
-  // safety: disconnect after 12s
-  setTimeout(()=>observer.disconnect(), 12000);
-})();
+});
+observer.observe(document.body, { childList: true, subtree: true });
 </script>
 </body>
 </html>
