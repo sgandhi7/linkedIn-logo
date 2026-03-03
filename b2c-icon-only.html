@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>B2C small icon CSS</title>
+<style>
+/* Target by provider attribute or by visible text as fallback */
+button[data-provider="LinkedIn"],
+button#LinkedIn,
+button#LinkedIn {
+  background-image: url('https://cdn-icons-png.flaticon.com/512/174/174857.png');
+  background-repeat: no-repeat;
+  background-position: 12px center;
+  background-size: 20px 20px;
+  padding-left: 44px !important;
+}
+
+/* Fallback: if B2C uses anchor tags instead of buttons */
+a[data-provider="LinkedIn"] {
+  background-image: url('https://cdn-icons-png.flaticon.com/512/174/174857.png');
+  background-repeat: no-repeat;
+  background-position: 12px center;
+  background-size: 20px 20px;
+  padding-left: 44px !important;
+}
+
+/* Small responsive tweak */
+@media (max-width:420px) {
+  button[data-provider="LinkedIn"], button#LinkedIn {
+    padding-left: 36px !important;
+    background-size: 18px 18px;
+  }
+}
+</style>
+</head>
+<body>
+<script>
+/* If B2C builds the buttons after load, tag the LinkedIn button based on visible text */
+(function tagLinkedIn(){
+  function tryTag() {
+    const btns = Array.from(document.querySelectorAll('button, a'));
+    btns.forEach(b=>{
+      const txt = (b.textContent || '').trim().toLowerCase();
+      if (txt && txt.includes('linkedin')) {
+        b.setAttribute('data-provider', 'LinkedIn');
+      }
+    });
+  }
+  // run immediately and a few times for SPA-rendered content
+  tryTag();
+  let attempts = 0;
+  const id = setInterval(()=>{ tryTag(); attempts++; if(attempts>8) clearInterval(id); }, 300);
+})();
+</script>
+</body>
+</html>
