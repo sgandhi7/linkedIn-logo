@@ -2,135 +2,131 @@
 <html>
 <head>
     <title>Sign up or sign in</title>
-
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.5/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <style id="common">
-        @font-face {
-            font-family: 'SegoeUI';
-            src: url(https://login.microsoftonline.com/templates/src/fonts/segoeui.WOFF);
-            font-weight: normal;
-        }
-        @font-face {
-            font-family: 'SegoeUI';
-            src: url(https://login.microsoftonline.com/templates/src/fonts/segoeui_bold.WOFF);
-            font-weight: bold;
+
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: url('https://login.microsoftonline.com/templates/src/backgrounds/1-1.png') no-repeat center center fixed;
+            background-size: cover;
         }
 
-        /* ICON IMAGES (colored by default, white on hover) */
-        /* explicit images for IdPs */
+        .panel {
+            border-radius: 12px;
+            padding: 40px 30px;
+            max-width: 420px;
+            margin: auto;
+            margin-top: 8vh;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .companyLogo {
+            display: block;
+            margin: 0 auto 30px auto;
+            max-height: 90px;
+        }
+
+        /* ===== IDP BUTTON BASE STYLE ===== */
+        #GoogleExchange,
+        #MicrosoftAccountExchange,
+        #LinkedInExchange,
+        button[id*="Google"],
+        button[id*="Microsoft"],
+        button[id*="LinkedIn"],
+        .accountButton[id*="Google"],
+        .accountButton[id*="Microsoft"],
+        .accountButton[id*="LinkedIn"] {
+            display: block !important;
+            width: 100% !important;
+            max-width: 380px !important;
+            height: 48px !important;
+            line-height: 48px !important;
+            margin: 12px auto !important;
+            border-radius: 8px !important;
+            border: 1px solid #ccc !important;
+            background-color: #ffffff !important;
+            font-size: 16px !important;
+            text-align: left !important;
+            padding-left: 50px !important;
+            background-repeat: no-repeat !important;
+            background-position: 15px center !important;
+            background-size: 20px 20px !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08) !important;
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* ===== ICONS ===== */
         #GoogleExchange,
         button[id*="Google"],
-        .accountButton[id*="Google"],
-        .options #GoogleExchange,
-        .options button[id*="Google"] {
-          background-image: url('https://login.microsoftonline.com/templates/src/idp_logos/colored/google.svg') !important;
-        }
-        #GoogleExchange:hover,
-        button[id*="Google"]:hover,
-        .accountButton[id*="Google"]:hover {
-          background-image: url('https://login.microsoftonline.com/templates/src/idp_logos/white/google.svg') !important;
+        .accountButton[id*="Google"] {
+            background-image: url('https://login.microsoftonline.com/templates/src/idp_logos/colored/google.svg') !important;
         }
 
         #MicrosoftAccountExchange,
         button[id*="Microsoft"],
-        .accountButton[id*="Microsoft"],
-        .options #MicrosoftAccountExchange,
-        .options button[id*="Microsoft"] {
-          background-image: url('https://login.microsoftonline.com/templates/src/idp_logos/colored/microsoft.svg') !important;
-        }
-        #MicrosoftAccountExchange:hover,
-        button[id*="Microsoft"]:hover,
-        .accountButton[id*="Microsoft"]:hover {
-          background-image: url('https://login.microsoftonline.com/templates/src/idp_logos/white/microsoft.svg') !important;
+        .accountButton[id*="Microsoft"] {
+            background-image: url('https://login.microsoftonline.com/templates/src/idp_logos/colored/microsoft.svg') !important;
         }
 
         #LinkedInExchange,
         button[id*="LinkedIn"],
-        .accountButton[id*="LinkedIn"],
-        .options #LinkedInExchange,
-        .options button[id*="LinkedIn"] {
-          background-image: url('https://login.microsoftonline.com/templates/src/idp_logos/colored/linkedin.svg') !important;
+        .accountButton[id*="LinkedIn"] {
+            background-image: url('https://login.microsoftonline.com/templates/src/idp_logos/colored/linkedin.svg') !important;
         }
+
+        /* ===== HOVER EFFECT ===== */
+        #GoogleExchange:hover,
+        #MicrosoftAccountExchange:hover,
         #LinkedInExchange:hover,
-        button[id*="LinkedIn"]:hover,
-        .accountButton[id*="LinkedIn"]:hover {
-          background-image: url('https://login.microsoftonline.com/templates/src/idp_logos/white/linkedin.svg') !important;
+        button[id*="Google"]:hover,
+        button[id*="Microsoft"]:hover,
+        button[id*="LinkedIn"]:hover {
+            background-color: #1662c7 !important;
+            color: white !important;
         }
 
-        /* Generic styling so the icon appears to the left and text lines up */
-        #GoogleExchange, #MicrosoftAccountExchange, #LinkedInExchange,
-        button[id*="Google"], button[id*="Microsoft"], button[id*="LinkedIn"],
-        .accountButton[id*="Google"], .accountButton[id*="Microsoft"], .accountButton[id*="LinkedIn"],
-        .options #GoogleExchange, .options #MicrosoftAccountExchange, .options #LinkedInExchange {
-          background-repeat: no-repeat !important;
-          background-position: 12px center !important;
-          background-size: 18px 18px !important;
-          padding-left: 45px !important; /* give space so text doesn't overlap icon */
+        #GoogleExchange:hover {
+            background-image: url('https://login.microsoftonline.com/templates/src/idp_logos/white/google.svg') !important;
         }
 
-        /* Normalize other IdP icons to align visually */
-        #FacebookExchange, #GitHubExchange, #AppleExchange, #TwitterExchange, #AmazonExchange {
-          background-repeat: no-repeat;
-          background-position: 12px center;
-          background-size: 18px 18px;
-          padding-left: 45px;
+        #MicrosoftAccountExchange:hover {
+            background-image: url('https://login.microsoftonline.com/templates/src/idp_logos/white/microsoft.svg') !important;
         }
 
-        .buttons #cancel:before {
-            content: url(https://login.microsoftonline.com/templates/src/images/left-arrow.svg);
+        #LinkedInExchange:hover {
+            background-image: url('https://login.microsoftonline.com/templates/src/idp_logos/white/linkedin.svg') !important;
+        }
+
+        /* Ensure API content centers properly */
+        #api {
+            width: 100%;
         }
     </style>
-
-    <!-- keep other IDP local selector definitions -->
-    <style id="idpselector">
-        #SignInWithLogonNameExchange, #SignUpWithLogonEmailExchange, #SignUpWithLogonNameExchange {
-            background-image: url(https://login.microsoftonline.com/templates/src/idp_logos/colored/local.svg);
-        }
-        #SignInWithLogonNameExchange:hover, #SignUpWithLogonEmailExchange:hover, #SignUpWithLogonNameExchange:hover {
-            background-image: url(https://login.microsoftonline.com/templates/src/idp_logos/white/local.svg);
-        }
-        #SignUpWithLogonEmailExchange.text-link {
-            background-image: none;
-            background-color: transparent !important;
-        }
-        #SignUpWithLogonEmailExchange.text-link:hover {
-            background-image: none;
-            background-color: transparent !important;
-        }
-    </style>
-
-    <style>
-        /* Following are generated styles via gulp (kept as-is from the original template). */
-        /* inject: css */
-        html{background:0 0}body{font-family:Segoe UI,SegoeUI,"Helvetica Neue",Helvetica,Arial,sans-serif;background-attachment:fixed;background-color:#fff;background-position:center;background-repeat:no-repeat;background-size:cover;text-align:left;font:-apple-system-body}p{margin:0}a:focus{outline:0}input,select{border:1px solid #605e5c}input::placeholder{color:#6a6a6a;opacity:1}img[data-tenant-branding-background=true]{width:100%;height:100%;object-fit:cover;z-index:0;position:fixed;left:0;overflow:hidden;top:0}div[data-tenant-branding-background-color=true]{width:100%;height:100%;position:fixed;z-index:0}.container{text-align:center;width:100%;display:table;height:100vh;padding:0}#api{margin:0 auto}.heading h1{margin-bottom:20px}.col-lg-6{max-width:470px;width:100%;float:none;display:inline-block;vertical-align:top;padding:0}.row{width:100%;margin:0;display:table-cell;vertical-align:middle}ul{padding:0}#simplemodal-container .simplemodal-data{padding:5px 8px;overflow:hidden;background-color:#fff;border-radius:3px;font-style:italic}#LocalAccountSigninEmailExchange,#LocalAccountSigninUsernameExchange,#SignInWithLogonEmailExchange,#SignInWithLogonNameExchange,#SignUpWithLogonEmailExchange,#SignUpWithLogonNameExchange{background-color:#296ec6;background-image:url(none);background-size:10%;background-position-x:95%;background-position-y:50%;background-repeat:no-repeat;border-radius:.5rem;width:100%;width:100%;font-size:1em;margin-left:auto}#LocalAccountSigninEmailExchange:hover,#LocalAccountSigninUsernameExchange:hover,#SignInWithLogonEmailExchange:hover,#SignInWithLogonNameExchange:hover,#SignUpWithLogonEmailExchange:hover,#SignUpWithLogonNameExchange:hover{background-color:#1662c7!important}#AmazonExchange:hover{background-color:#36474f!important}#FacebookExchange:hover{background-color:#3b5595!important}#GitHubExchange:hover{background-color:#0f0f0f!important}#AppleExchange:hover,#AppleManagedExchange:hover{background-color:#0f0f0f!important}#GoogleExchange:hover{background-color:#c64a29!important}#LinkedInExchange:hover{background-color:#0274b3!important}#MicrosoftAccountExchange:hover{background-color:#01a4ef!important}#QQExchange:hover{background-color:#1a97df!important}#TwitterExchange:hover{background-color:#1da1f2!important}#WeChatExchange:hover{background-color:#4cc522!important}#WeiboExchange:hover{background-color:#e81123!important}.buttons button{margin:0 auto;width:60%;height:50px;background-color:#296ec6;border-radius:.5rem;border:none;color:#fff;font-size:1em;margin-top:10px}.buttons button:hover{background-color:#1662c7;border-color:#204d74}.buttons button[aria-disabled=true]{opacity:.3}.buttons button:not([aria-disabled=true]){opacity:1}.buttons #cancel{padding:0;margin-left:auto;background:0 0;border:0;width:inherit;position:absolute;background-color:transparent;top:2px;left:15px;font-size:1em;color:#505050;box-shadow:none;text-align:left}.buttons #cancel:hover{color:#000!important}.buttons #cancel:before{padding:10px;vertical-align:sub;zoom:90%;display:inline-block}#attributeList ul{padding:0}#attributeList ul li{list-style:none;margin:1rem 0}label{font-weight:600}#attributeList ul li label{display:block;text-align:left;float:none}#attributeList ul li.EmailBox label,#attributeList ul li.Password label,#attributeList ul li.TextBox label{display:none!important}#attributeList ul li label[for=country]{float:left;display:inline-block!important;margin-bottom:.5rem}#attributeList ul li label[for=cpiminternal_legalCountry]{float:none;display:block!important;text-align:left;margin-bottom:.5rem}#attributeList ul li label[for=cpiminternal_dateOfBirth]{float:none;text-align:left;display:block!important;margin-bottom:.5rem}#attributeList ul li input{height:50px;width:70%;border-radius:.5rem;text-indent:20px}#attributeList ul li input::-webkit-input-placeholder{text-indent:20px}#attributeList ul li .attrEntry.validate input.invalid,#attributeList ul li .attrEntry.validate input:invalid{border:1px solid #b00}#attributeList ul li .attrEntry .verify{margin-top:2rem;padding-bottom:10px;position:relative}#attributeList ul li .attrEntry .verificationControlContent .buttons{margin-top:2rem;padding-bottom:10px;position:relative}#attributeList ul li .attrEntry .verify .sendButton[id$=ver_but_send]{width:60%;height:50px;background-color:#296ec6;color:#fff;border-radius:.5rem}#attributeList ul li .attrEntry .verificationControlContent .sendCode{width:60%;height:50px;background-color:#296ec6;color:#fff;border-radius:.5rem}#attributeList ul li .attrEntry .verify .sendButton[id$=ver_but_send]:hover{background-color:#1662c7}#attributeList ul li .attrEntry .verificationControlContent .sendCode:hover{background-color:#1662c7}@media screen and (-ms-high-contrast:active){#attributeList ul li .attrEntry .verify button,.buttons #continue{border:1px dashed #fff!important}#attributeList ul li .attrEntry .verify button:hover,.buttons #continue:hover{border:1px solid #fff!important}}#attributeList ul li .attrEntry .verify .verifyButton{width:inherit;padding:0 20px;height:50px;background-color:#296ec6;color:#fff;margin-right:5px;border-radius:.5rem}#attributeList ul li .attrEntry .verificationControlContent .verifyCode{width:inherit;padding:0 20px;height:50px;background-color:#296ec6;color:#fff;margin-right:5px;border-radius:.5rem}#attributeList ul li .attrEntry .verify .verifyButton:hover{background-color:#1662c7}#attributeList ul li .attrEntry .verificationControlContent .verifyCode:hover{background-color:#1662c7}#attributeList ul li .attrEntry .verify .sendButton[id$=ver_but_resend]{width:inherit;padding:0 20px;border:0;font-size:1em;height:50px;right:0;bottom:-38px;background-color:#296ec6;color:#fff;border-radius:.5rem}#attributeList ul li .attrEntry .verificationControlContent .sendNewCode{width:inherit;padding:0 20px;border:0;font-size:1em;height:50px;right:0;bottom:-38px;background-color:#296ec6;color:#fff;border-radius:.5rem}#attributeList ul li .attrEntry .verify .sendButton[id$=ver_but_resend]:hover{background-color:#1662c7}#attributeList ul li .attrEntry .verificationControlContent .sendNewCode:hover{background-color:#1662c7}#attributeList ul li .attrEntry .verify .editButton{border:none;color:#fff;background-color:#296ec6;width:60%;height:50px;border-radius:.5rem}#attributeList ul li .attrEntry .verificationControlContent .changeClaims{border:none;color:#fff;background-color:#296ec6;width:60%;height:50px;border-radius:.5rem}#attributeList ul li .attrEntry .verify .editButton:hover{background-color:#1662c7}#attributeList ul li .attrEntry .verificationControlContent .changeClaims:hover{background-color:#1662c7}#attributeList ul li .attrEntry .verify #email_ver_input_label{display:none!important}#attributeVerification .buttons{margin-top:30px}@media screen and (max-width:100%){.row .panel-default .panel-body{margin-top:40px}.row .panel-default .panel-body .branding img{display:block;height:80px;width:auto;margin:0 auto}.row .panel-default .panel-body .branding h1{display:none}.row .panel-default .panel-body h3{font-size:1.5em;margin-top:15px}#attributeVerification #attributeList ul li input{width:60%;height:40px;border-radius:.5rem;border:1px solid #605e5c;text-indent:10px}#attributeVerification #attributeList ul li input::-webkit-input-placeholder{text-indent:10px}#attributeVerification #attributeList ul li #email{width:65%;float:left;position:relative;z-index:2}#attributeVerification #attributeList ul li #email_ver_but_verify{background:0 0;border:0;color:#496ad8;font-size:1em;position:relative;right:0;top:60px;font-size:1.1em;width:auto;z-index:1;height:20px}#attributeVerification #attributeList ul li #email_ver_input{min-width:50%;width:60%;float:left}#attributeVerification #attributeList ul li #email_ver_but_resend{top:10px;font-size:1.1em;height:20px}#attributeVerification #attributeList ul li .attrEntry #email{height:40px}#attributeVerification #attributeList ul li .attrEntry .verify #email_ver_but_send:after{content:" Verify";font-size:1.1em;font-style:bold;margin-left:40%}#attributeVerification #attributeList ul li .attrEntry .verify #email_ver_but_send{height:40px;width:auto;float:right;overflow:hidden;text-indent:-200px}#attributeVerification #attributeList ul li .attrEntry .verify #email_ver_but_edit{margin-bottom:15px;border:none;color:#fff;background-color:#496ad8;border-radius:.5rem;font-size:1em;box-shadow:0 0 40px 2px #dae1f7;width:30%;height:40px;overflow:hidden;padding-top:6px;margin-left:40%}#attributeVerification #attributeList ul li .attrEntry .verify:after{content:" ";display:block;clear:both}#attributeVerification #attributeList #verifying_blurb{margin-top:15px}#attributeVerification .buttons #continue{height:40px}#attributeVerification .buttons #cancel{font-size:1em;left:40%}}.panel,.panel_layout,.panel_layout_row,body,html{height:100%}@media only screen and (max-width:600px){img[data-tenant-branding-background=true]{display:none}.container{background-color:#fff}.container .row .panel-default{border-radius:0;border:none;box-shadow:none}}
-        /* endinject */
-    </style>
-
 </head>
+
 <body>
-    <!-- Background image / color container.
-         Keep these attributes to allow the portal to update them from Tenant Branding if you want. -->
-    <div id="background_branding_container" data-tenant-branding-background-color="true">
-      <img data-tenant-branding-background="true" src="https://login.microsoftonline.com/templates/src/backgrounds/1-1.png" alt="Illustration"/>
-    </div>
 
-    <div class="container  unified_container " role="presentation">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <!-- Company logo at top. Keep data-tenant-branding-logo attribute so Azure branding updates still apply -->
-                        <img class="companyLogo" data-tenant-branding-logo="true" src="https://login.microsoftonline.com/templates/src/images/logo.svg" alt="Company Logo">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
 
-                        <!-- DO NOT REMOVE: Azure injects the login UI into this element -->
-                        <div id="api" role="main"></div>
-                    </div>
-                </div>
+                <!-- Top Logo -->
+                <img class="companyLogo"
+                     src="https://login.microsoftonline.com/templates/src/images/logo.svg"
+                     alt="Company Logo">
+
+                <!-- REQUIRED: Azure injects UI here -->
+                <div id="api"></div>
+
             </div>
         </div>
     </div>
+</div>
+
 </body>
 </html>
